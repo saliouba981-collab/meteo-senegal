@@ -45,3 +45,6 @@ h1 { margin-bottom: 20px; font-size: 32px; }
 .main-card .conseil {
   background: rgba(255,255,255,0.2);
 }
+.main-card h2, .main-card .big-temp, .main-card p {
+  color: white !important;
+}
