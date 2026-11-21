@@ -16,12 +16,12 @@ export class App implements OnInit  {
   chargement = true;
 
   villes: any[] = [
-    { nom: 'Dakar', lat: 14.7167, lon: -17.4677, temp: 0, humidite: 0, vent: 0, ressenti: '', icone: '☀️', conseil: '', heures: [], jours: [] },
-    { nom: 'Thiès', lat: 14.7917, lon: -16.9278, temp: 0, humidite: 0, vent: 0, ressenti: '', icone: '☀️', conseil: '', heures: [], jours: [] },
-    { nom: 'Saint-Louis', lat: 16.0179, lon: -16.4896, temp: 0, humidite: 0, vent: 0, ressenti: '', icone: '☀️', conseil: '', heures: [], jours: [] },
-    { nom: 'Ziguinchor', lat: 12.5833, lon: -16.2667, temp: 0, humidite: 0, vent: 0, ressenti: '', icone: '☀️', conseil: '', heures: [], jours: [] },
-    { nom: 'Kaolack', lat: 14.15, lon: -16.0667, temp: 0, humidite: 0, vent: 0, ressenti: '', icone: '☀️', conseil: '', heures: [], jours: [] },
-    { nom: 'Touba', lat: 14.8667, lon: -15.8833, temp: 0, humidite: 0, vent: 0, ressenti: '', icone: '☀️', conseil: '', heures: [], jours: [] }
+    { nom: 'Dakar', lat: 14.7167, lon: -17.4677, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
+    { nom: 'Thiès', lat: 14.7917, lon: -16.9278, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
+    { nom: 'Saint-Louis', lat: 16.0179, lon: -16.4896, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
+    { nom: 'Ziguinchor', lat: 12.5833, lon: -16.2667, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
+    { nom: 'Kaolack', lat: 14.15, lon: -16.0667, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
+    { nom: 'Touba', lat: 14.8667, lon: -15.8833, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] }
   ];
 
   constructor(private http: HttpClient) {}
@@ -41,10 +41,18 @@ export class App implements OnInit  {
       ville.ressenti = info.texte;
       ville.icone = info.icone;
       ville.conseil = info.conseil;
-      ville.heures = data.hourly.time.slice(0, 6).map((t: string, i: number) => ({
+
+      // Heures : partir de l'heure actuelle, pas de 00h
+      const now = new Date();
+      const startIndex = data.hourly.time.findIndex((t: string) => {
+        const d = new Date(t);
+        return d.getHours() === now.getHours() && d.getDate() === now.getDate();
+      });
+      const idx = startIndex === -1 ? 0 : startIndex;
+      ville.heures = data.hourly.time.slice(idx, idx + 6).map((t: string, i: number) => ({
         heure: t.slice(11, 16),
-        temp: Math.round(data.hourly.temperature_2m[i]),
-        icone: this.traduireCode(data.hourly.weather_code[i], 25).icone
+        temp: Math.round(data.hourly.temperature_2m[idx + i]),
+        icone: this.traduireCode(data.hourly.weather_code[idx + i], 25).icone
       }));
       const jours = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
       ville.jours = data.daily.time.map((t: string, i: number) => ({
@@ -86,6 +94,9 @@ export class App implements OnInit  {
   }
 
   chercher() {
-    this.villeChoisie = this.recherche;
+    const trouve = this.villes.find(v => v.nom.toLowerCase() === this.recherche.trim().toLowerCase());
+    if (trouve) {
+      this.villeChoisie = trouve.nom;
+    }
   }
 }
