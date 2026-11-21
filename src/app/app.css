@@ -29,3 +29,19 @@ h1 { margin-bottom: 20px; font-size: 32px; }
 .ville-card.active { border: 3px solid #f97316; }
 .ville-icone { font-size: 32px; }
 .footer { margin-top: 25px; opacity: 0.9; font-size: 13px; }
+.main-card {
+  background-size: cover;
+  background-position: center;
+  color: white;
+  overflow: hidden;
+  position: relative;
+  padding: 0 !important;
+}
+.main-card-overlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.65));
+  padding: 28px;
+  height: 100%;
+}
+.main-card .conseil {
+  background: rgba(255,255,255,0.2);
+}
