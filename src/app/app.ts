@@ -16,12 +16,12 @@ export class App implements OnInit  {
   chargement = true;
 
   villes: any[] = [
-    { nom: 'Dakar', lat: 14.7167, lon: -17.4677, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
-    { nom: 'Thiès', lat: 14.7917, lon: -16.9278, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
-    { nom: 'Saint-Louis', lat: 16.0179, lon: -16.4896, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
-    { nom: 'Ziguinchor', lat: 12.5833, lon: -16.2667, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
-    { nom: 'Kaolack', lat: 14.15, lon: -16.0667, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] },
-    { nom: 'Touba', lat: 14.8667, lon: -15.8833, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [] }
+    { nom: 'Dakar', lat: 14.7167, lon: -17.4677, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [], image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80' },
+    { nom: 'Thiès', lat: 14.7917, lon: -16.9278, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [], image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1200&q=80' },
+    { nom: 'Saint-Louis', lat: 16.0179, lon: -16.4896, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [], image: 'https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1200&q=80' },
+    { nom: 'Ziguinchor', lat: 12.5833, lon: -16.2667, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [], image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80' },
+    { nom: 'Kaolack', lat: 14.15, lon: -16.0667, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [], image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&q=80' },
+    { nom: 'Touba', lat: 14.8667, lon: -15.8833, temp: null, humidite: 0, vent: 0, ressenti: 'Chargement...', icone: '⏳', conseil: '', heures: [], jours: [], image: 'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=1200&q=80' }
   ];
 
   constructor(private http: HttpClient) {}
@@ -41,8 +41,6 @@ export class App implements OnInit  {
       ville.ressenti = info.texte;
       ville.icone = info.icone;
       ville.conseil = info.conseil;
-
-      // Heures : partir de l'heure actuelle, pas de 00h
       const now = new Date();
       const startIndex = data.hourly.time.findIndex((t: string) => {
         const d = new Date(t);
